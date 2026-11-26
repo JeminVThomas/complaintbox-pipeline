@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: complaintbox
+  namespace: complaintbox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: complaintbox
+  template:
+    metadata:
+      labels:
+        app: complaintbox
+    spec:
+      imagePullSecrets:
+        - name: ecr-secret
+
+      containers:
+        - name: complaintbox
+          image: 994878981749.dkr.ecr.ap-south-1.amazonaws.com/complaintbox:1
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: DB_HOST
+              value: "172.31.2.63"
+
+            - name: DB_PORT
+              value: "3306"
+
+            - name: DB_NAME
+              value: "complaintbox"
+
+            - name: DB_USER
+              value: "complaintbox_user"
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: complaintbox-secret
+                  key: DB_PASSWORD
+
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: complaintbox-secret
+                  key: DJANGO_SECRET_KEY
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

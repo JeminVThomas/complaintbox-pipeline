@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Environment variables
+.env
+.env.*
+
+# Local database and uploads
+db.sqlite3
+media/
+
+# Security scan reports
+semgrep-report.json
+zap-reports/
+trivy-report.json
+
+# Minikube binary
+minikube-linux-amd64
+
+# SonarQube
+.scannerwork/
